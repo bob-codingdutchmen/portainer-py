@@ -35,7 +35,7 @@ Docker, connect to it like this:
         portainer.update_stack(
             stack["Id"],
             "path/to/stackfile.yml",
-            env_vars={"foo": "bar}
+            env_vars={"foo": "bar"}
         )
     except: PortainerError as error:
         print(error.message)

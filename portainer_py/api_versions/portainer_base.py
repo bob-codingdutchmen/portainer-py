@@ -2,7 +2,6 @@ from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
-from dotenv import dotenv_values
 from .exceptions import PortainerError
 
 
@@ -24,7 +23,7 @@ class Portainer:
         return self.request(self.URL_STACKS)
 
     def get_stack(self, stack_id) -> dict:
-        return self.request(self.URL_STACK.format(stack_id))
+        return self.request(self.URL_STACK.format(stack_id=stack_id))
 
     def stack_with_name(self, name) -> dict:
         stacks = self.get_stacks()
@@ -35,9 +34,6 @@ class Portainer:
 
     def get_endpoints(self) -> dict:
         return self.request("api/endpoints")
-
-    def load_env_vars(self, file_path: Path):
-        return dotenv_values(file_path)
 
     def get_env_vars(self, stack_id) -> dict:
         response = self.get_stack(stack_id)
