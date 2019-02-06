@@ -8,13 +8,21 @@ from portainer_py import portainer_for_host, PortainerError
 @click.option("--user", help="Portainer username", envvar="PORTAINER_USERNAME")
 @click.option("--password", help="Portainer password", envvar="PORTAINER_PASSWORD")
 @click.option("--stackname", help="Name of the Portainer stack", envvar="PORTAINER_STACK_NAME")
-def deploy(stackfile, host, user, password, stackname):
+@click.option("--env", nargs=2, type=str, multiple=True)
+def deploy(stackfile, host, user, password, stackname, env=None):
 
     portainer = portainer_for_host(host)
     portainer.login(user, password)
 
     stack = portainer.stack_with_name(stackname)
-    print(f"stack found: Id: {stack['Id']}")
+
+    try:
+        portainer.update_stack_with_file(
+            stack["Id"], stackfile, env_vars={k: v for k, v in env}
+        )
+    except PortainerError as err:
+        print("ERROR:")
+        print(err.message)
 
 
 if __name__ == "__main__":
