@@ -1,11 +1,13 @@
 language: python
 python:
-  - 3.6
-  - 3.5
-  - 3.4
-
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- 3.6
+- 3.5
+- 3.4
 install: pip install -U tox-travis pytest && pip install -r requirements.txt
-
-# Command to run tests, e.g. python setup.py test
 script: pytest
+deploy:
+  provider: pypi
+  user: bobvork
+  password:
+    secure: QvtHmi+GVDzeQPpUxON7ozEkDxDqBK8avEf7PoPmFnnkKzQ+7YGYPHTDeFrKlNEx8h8fPUTVA2gdgyPj5qVZSwXX6EtCAITdRfmyvfn0+bEtJerXbVmwu1Fq4AZBEyI2DAzBqfWEyXonG4jGBDR3i7IIYZqe4K9Y8FZL0szb4trEDFSrTz75tM6GDx6sFr/mlTALw2yU7ODBmRgsznadawWJVSmmh4XcLaKEuHqX6oJ/s29GFjjPH0hzQYGpZhoibxhueIRfGRTjjbk2lAW3UqvFSrg7PB0GB3BR6HKSeV5oaMPMr0PbnCt3a5RoaFt8JhDl4Z0RKIJaGjHFJkAoSabO9LKU5FVMbBuiZNS6HEmm8Ct2a5xkxMWOGQejiY8dmmKiJiAZlyKSZLvhAUDh/6ERV3G93WrodBlxnXaAeIc5KMvREpiLKwo+R0UGKluRgomPgLmvgGLT7hFqjWLOb2KQV+jKTQSgrh8YHuP4BXAVnngRpCB/SlZYQTVIpcXFYvB/rzijHurj/UdP+0jkwiDIEf1YqRK4aD+JmkXiR7ezFBx3rfhT6XNYW9bdCoR5xIkSA2TGPIYjwIIC5Ok+SJtniAUDeXRs85r6f9vsPf++1nrL3jSNevBKSHxeQiIhkLE9MIoGnZI6TQ1qKxM5npWqHEWC/cLmDsKfK0u2xqc=
+  skip_existing: true
