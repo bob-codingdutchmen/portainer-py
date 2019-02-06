@@ -1,10 +1,10 @@
 [metadata]
 name = 'portainer-py'
-version = '0.0.1'
-description = ''
+version = '0.1.0'
+description = 'Package to help deploy projects to portainer'
 author = 'Bob Vork'
 author_email = 'bob@theothersonline.eu'
-license = 'MIT/Apache-2.0'
+license = 'MIT'
 url = 'https://github.com/_/portainer-py'
 
 [requires]

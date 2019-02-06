@@ -18,14 +18,14 @@ REQUIRES = []
 setup(
     name='portainer-py',
     version=version,
-    description='Package to help deploy projects to portainer',
+    description='',
     long_description=readme,
     author='Bob Vork',
     author_email='bob@theothersonline.eu',
     maintainer='Bob Vork',
     maintainer_email='bob@theothersonline.eu',
     url='https://github.com/_/portainer-py',
-    license='MIT/Apache-2.0',
+    license='MIT',
 
     keywords=[
         '',
@@ -35,7 +35,6 @@ setup(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
