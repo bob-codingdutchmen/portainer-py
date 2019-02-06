@@ -8,5 +8,5 @@ class Portainer_1_18(Portainer_1_17):
         return self.request("api/stacks")
 
     def get_stack(self, stack_id) -> dict:
-        return self.request(f"api/stacks/{stack_id}")
+        return self.request("api/stacks/{}".format(stack_id))
 

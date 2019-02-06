@@ -20,14 +20,14 @@ class Portainer:
         return self.request("api/endpoints/1/stacks")
 
     def get_stack(self, stack_id) -> dict:
-        return self.request(f"api/endpoints/1/stacks/{stack_id}")
+        return self.request("api/endpoints/1/stacks/{}".format(stack_id))
 
     def stack_with_name(self, name) -> dict:
         stacks = self.get_stacks()
         for stack in stacks:
             if stack.get("Name") == name:
                 return stack
-        raise LookupError(f"No stack with name '{name}'")
+        raise LookupError("No stack with name '{}'".format(name))
 
     def get_endpoints(self) -> dict:
         return self.request("api/endpoints")
