@@ -13,7 +13,7 @@ with open('portainer_py/__init__.py', 'r') as f:
 with open('README.rst', 'r', encoding='utf-8') as f:
     readme = f.read()
 
-REQUIRES = ["requests"]
+REQUIRES = ["requests", "click"]
 
 setup(
     name='portainer-py',
