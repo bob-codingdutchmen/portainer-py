@@ -8,17 +8,21 @@ from portainer_py import portainer_for_host, PortainerError
 @click.option("--user", help="Portainer username", envvar="PORTAINER_USERNAME")
 @click.option("--password", help="Portainer password", envvar="PORTAINER_PASSWORD")
 @click.option("--stackname", help="Name of the Portainer stack", envvar="PORTAINER_STACK_NAME")
-@click.option("--env", nargs=2, type=str, multiple=True)
-def deploy(stackfile, host, user, password, stackname, env=None):
-
+@click.option("--env", multiple=True)
+@click.option('--prune-env', default=False, is_flag=True)
+def deploy(stackfile, host, user, password, stackname, env, prune_env):
+    # Log in and find the specified stack:
     portainer = portainer_for_host(host)
     portainer.login(user, password)
-
     stack = portainer.stack_with_name(stackname)
+
+    # Merge existing env vars on the stack with the supplied ones
+    existing_env_vars = {} if prune_env else portainer.get_env_vars(stack["Id"])
+    env_vars = {k: v for k, v in (item.split('=', 1) for item in env)}
 
     try:
         portainer.update_stack_with_file(
-            stack["Id"], stackfile, env_vars={k: v for k, v in env}
+            stack["Id"], stackfile, env_vars={**existing_env_vars, **env_vars}
         )
     except PortainerError as err:
         print("ERROR:")
