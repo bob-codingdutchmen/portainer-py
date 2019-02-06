@@ -18,7 +18,7 @@ REQUIRES = []
 setup(
     name='portainer-py',
     version=version,
-    description='',
+    description='Package to help deploy projects to portainer',
     long_description=readme,
     author='Bob Vork',
     author_email='bob@theothersonline.eu',
