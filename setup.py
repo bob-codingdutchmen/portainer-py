@@ -13,13 +13,14 @@ with open('portainer_py/__init__.py', 'r') as f:
 with open('README.rst', 'r', encoding='utf-8') as f:
     readme = f.read()
 
-REQUIRES = ["requests"]
+REQUIRES = ["requests", "python-dotenv"]
 
 setup(
     name='portainer-py',
     version=version,
     description='',
     long_description=readme,
+    long_description_content_type='text/x-rst; charset=UTF-8',
     author='Bob Vork',
     author_email='bob@theothersonline.eu',
     maintainer='Bob Vork',

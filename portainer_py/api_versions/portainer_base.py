@@ -1,11 +1,15 @@
-import json
+from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
+from dotenv import dotenv_values
+from .exceptions import PortainerError
 
 
 class Portainer:
     FROM_VERSION = (0, 0)
+    URL_STACKS = "api/endpoints/1/stacks"
+    URL_STACK = "api/stacks/{stack_id}"
 
     def __init__(self, host: str):
         self.token = None
@@ -17,10 +21,10 @@ class Portainer:
         self.token = r.get("jwt")
 
     def get_stacks(self) -> dict:
-        return self.request("api/endpoints/1/stacks")
+        return self.request(self.URL_STACKS)
 
     def get_stack(self, stack_id) -> dict:
-        return self.request("api/endpoints/1/stacks/{}".format(stack_id))
+        return self.request(self.URL_STACK.format(stack_id))
 
     def stack_with_name(self, name) -> dict:
         stacks = self.get_stacks()
@@ -32,18 +36,21 @@ class Portainer:
     def get_endpoints(self) -> dict:
         return self.request("api/endpoints")
 
+    def load_env_vars(self, file_path: Path):
+        return dotenv_values(file_path)
+
     def get_env_vars(self, stack_id) -> dict:
         response = self.get_stack(stack_id)
         return {item["name"]: item["value"] for item in response["Env"]}
 
     def update_stack(
         self,
-        stack_name: str,
+        stack_id: str,
         stack_file_content: str,
         env_vars: dict = None,
         prune: bool = False,
     ) -> dict:
-        url = "api/endpoints/1/stacks/{}".format(stack_name)
+        url = self.URL_STACK.format(stack_id=stack_id)
         data = {
             "StackFileContent": stack_file_content,
             "Prune": prune,
@@ -71,7 +78,7 @@ class Portainer:
         if self.token:
             headers["Authorization"] = "Bearer {}".format(self.token)
         response = requests.request(method, url, json=data, headers=headers)
-        try:
+        if response.status_code == requests.codes.ok:
             return response.json()
-        except json.decoder.JSONDecodeError:
-            return response.content
+        else:
+            raise PortainerError(response=response)
