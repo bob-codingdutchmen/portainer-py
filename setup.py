@@ -13,7 +13,7 @@ with open('portainer_py/__init__.py', 'r') as f:
 with open('README.rst', 'r', encoding='utf-8') as f:
     readme = f.read()
 
-REQUIRES = ["requests", "click"]
+REQUIRES = ["requests", "click", "colorama"]
 
 setup(
     name='portainer-py',
@@ -49,4 +49,9 @@ setup(
     tests_require=['coverage', 'pytest'],
 
     packages=find_packages(),
+    py_modules=["portainer_py"],
+    entry_points="""
+    [console_scripts]
+    portainerpy=portainer_pi:cli
+    """
 )

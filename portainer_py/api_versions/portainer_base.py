@@ -1,4 +1,3 @@
-from pathlib import Path
 from urllib.parse import urljoin
 
 import requests
@@ -15,14 +14,32 @@ class Portainer:
         self.host = host
 
     def login(self, username: str, password: str):
+        """
+        Logs in to the portainer API
+        :param username:  Portainer username
+        :param password: Portainer password
+        :return: True if authentication was successful, False if not
+        """
         data = {"Username": username, "Password": password}
         r = self.request("api/auth", method="POST", data=data)
         self.token = r.get("jwt")
+        return bool(self.token)
 
     def get_stacks(self) -> dict:
+        """
+        Get all stacks on this portainer
+        :return: a list of dicts
+        """
         return self.request(self.URL_STACKS)
 
     def get_stack(self, stack_id) -> dict:
+        """
+        Get the stack by Id. Id might be a string or an int depending
+        on the Portainer version
+        :param stack_id:
+        :return: A dict containing information about the stack
+        :raises LookupError:
+        """
         return self.request(self.URL_STACK.format(stack_id=stack_id))
 
     def stack_with_name(self, name) -> dict:
@@ -31,9 +48,6 @@ class Portainer:
             if stack.get("Name") == name:
                 return stack
         raise LookupError("No stack with name '{}'".format(name))
-
-    def get_endpoints(self) -> dict:
-        return self.request("api/endpoints")
 
     def get_env_vars(self, stack_id) -> dict:
         response = self.get_stack(stack_id)
