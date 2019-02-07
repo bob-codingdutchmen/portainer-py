@@ -1,3 +1,4 @@
+import os
 from typing import Union
 
 import click
@@ -68,7 +69,18 @@ def show_error(message: Union[str, Exception], stop: bool = False):
     default=False,
     is_flag=True,
 )
-def deploy(stackfile, host, user, password, stackname, env, prune_env, prune_stack):
+@click.argument("PASS_ENV_VARS", nargs=-1)
+def deploy(
+    stackfile,
+    host,
+    user,
+    password,
+    stackname,
+    env,
+    prune_env,
+    prune_stack,
+    pass_env_vars,
+):
     """
     Update and deploy a portainer stack.
 
@@ -81,9 +93,15 @@ def deploy(stackfile, host, user, password, stackname, env, prune_env, prune_sta
     --host       PORTAINER_HOST
     --stackname  PORTAINER_STACK_NAME
     --stackfile  PORTAINER_STACKFILE
+
+    Use [PASS_ENV_VARS] to pass the names of the environment variables you want to
+    pass on to the Portainer stack
     """
 
-    portainer = portainer_for_host(host)
+    try:
+        portainer = portainer_for_host(host)
+    except ConnectionError as err:
+        show_error(str(err), stop=True)
 
     try:
         portainer.login(user, password)
@@ -97,14 +115,16 @@ def deploy(stackfile, host, user, password, stackname, env, prune_env, prune_sta
 
     # Merge existing env vars on the stack with the supplied ones
     existing_env_vars = {} if prune_env else portainer.get_env_vars(stack["Id"])
+
     env_vars = {k: v for k, v in (item.split("=", 1) for item in env)}
+
+    passed_env_vars = {k: os.environ.get(k) for k in pass_env_vars}
+
+    final_env_vars = {**existing_env_vars, **env_vars, **passed_env_vars}
 
     try:
         portainer.update_stack_with_file(
-            stack["Id"],
-            stackfile,
-            env_vars={**existing_env_vars, **env_vars},
-            prune=prune_stack,
+            stack["Id"], stackfile, env_vars=final_env_vars, prune=prune_stack
         )
     except PortainerError as err:
         show_error(err.message, stop=True)

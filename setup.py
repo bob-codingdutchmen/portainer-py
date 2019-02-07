@@ -46,7 +46,7 @@ setup(
     ],
 
     install_requires=REQUIRES,
-    tests_require=['coverage', 'pytest'],
+    tests_require=['coverage', 'pytest', 'pytest-mock', 'responses'],
 
     packages=find_packages(),
     py_modules=["portainer_py"],
