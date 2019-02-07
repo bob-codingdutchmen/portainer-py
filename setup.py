@@ -25,7 +25,7 @@ setup(
     author_email='bob@theothersonline.eu',
     maintainer='Bob Vork',
     maintainer_email='bob@theothersonline.eu',
-    url='https://github.com/_/portainer-py',
+    url='https://github.com/bob-codingdutchmen/portainer-py',
     license='MIT',
 
     keywords=[
