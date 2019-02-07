@@ -18,7 +18,7 @@ REQUIRES = ["requests", "click", "colorama"]
 setup(
     name='portainer-py',
     version=version,
-    description='',
+    description='Package to help deploy projects to portainer',
     long_description=readme,
     long_description_content_type='text/x-rst; charset=UTF-8',
     author='Bob Vork',
