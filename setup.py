@@ -52,6 +52,6 @@ setup(
     py_modules=["portainer_py"],
     entry_points="""
     [console_scripts]
-    portainerpy=portainer_pi:cli
+    portainerpy=portainer_py.cli:cli
     """
 )

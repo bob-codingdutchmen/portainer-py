@@ -26,6 +26,7 @@ def show_error(message: Union[str, Exception], stop: bool = False):
     "-f",
     "--stackfile",
     help="Path to the stackfile.yml",
+    envvar="PORTAINER_STACKFILE",
     type=click.Path(exists=True),
     required=True,
 )
@@ -54,12 +55,32 @@ def show_error(message: Union[str, Exception], stop: bool = False):
     envvar="PORTAINER_STACK_NAME",
     required=True,
 )
-@option("-e", "--env", multiple=True)
-@option("--prune-env", default=False, is_flag=True)
-@option("--prune-stack", default=False, is_flag=True)
+@option("-e", "--env", help="Environment variables to add to the stack", multiple=True)
+@option(
+    "--prune-env",
+    help="If true, will remove existing environment variables from the stack",
+    default=False,
+    is_flag=True,
+)
+@option(
+    "--prune-stack",
+    help="Prune services that are no longer referenced",
+    default=False,
+    is_flag=True,
+)
 def deploy(stackfile, host, user, password, stackname, env, prune_env, prune_stack):
     """
     Update and deploy a portainer stack.
+
+    To ease automation, this utility also support using environment variables
+    instead of using these command line options:
+
+    \b
+    --user       PORTAINER_USERNAME
+    --password   PORTAINER_PASSWORD
+    --host       PORTAINER_HOST
+    --stackname  PORTAINER_STACK_NAME
+    --stackfile  PORTAINER_STACKFILE
     """
 
     portainer = portainer_for_host(host)

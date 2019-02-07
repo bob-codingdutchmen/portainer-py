@@ -1,0 +1,4 @@
+
+    [console_scripts]
+    portainerpy=portainer_py.cli:cli
+    
