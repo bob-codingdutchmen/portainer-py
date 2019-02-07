@@ -45,6 +45,16 @@ Python 3.5+.
 Usage
 -----
 
+From the command line
+~~~~~~~~~~~~~~~~~~~~~
+
+The only command currently supported is `deploy`. 
+.. code-block:: bash
+    $ portainerpy
+
+From python
+~~~~~~~~~~~
+
 If you're running Portainer locally, which should be very easy using
 Docker, connect to it like this:
 
@@ -65,6 +75,7 @@ Docker, connect to it like this:
         )
     except: PortainerError as error:
         print(error.message)
+
 
 
 License

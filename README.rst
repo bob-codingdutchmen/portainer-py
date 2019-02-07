@@ -19,6 +19,44 @@ Python 3.5+.
 Usage
 -----
 
+From the command line
+~~~~~~~~~~~~~~~~~~~~~
+
+The only command currently supported is ``deploy``.
+Use the help function to find out how to use it:
+
+.. code-block:: bash
+
+    $ portainerpy deploy --help
+    Usage: portainerpy deploy [OPTIONS]
+
+      Update and deploy a portainer stack.
+
+      To ease automation, this utility also support using environment variables
+      instead of using these command line options:
+
+      --user       PORTAINER_USERNAME
+      --password   PORTAINER_PASSWORD
+      --host       PORTAINER_HOST
+      --stackname  PORTAINER_STACK_NAME
+      --stackfile  PORTAINER_STACKFILE
+
+    Options:
+      -f, --stackfile PATH  Path to the stackfile.yml  [required]
+      -h, --host TEXT       URL to Portainer host  [required]
+      -u, --user TEXT       Portainer username  [required]
+      -p, --password TEXT   Portainer password
+      -n, --stackname TEXT  Name of the Portainer stack  [required]
+      -e, --env TEXT        Environment variables to add to the stack
+      --prune-env           If true, will remove existing environment variables
+                            from the stack
+      --prune-stack         Prune services that are no longer referenced
+      --help                Show this message and exit.
+
+
+From python
+~~~~~~~~~~~
+
 If you're running Portainer locally, which should be very easy using
 Docker, connect to it like this:
 
@@ -39,6 +77,7 @@ Docker, connect to it like this:
         )
     except: PortainerError as error:
         print(error.message)
+
 
 
 License
