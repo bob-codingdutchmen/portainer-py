@@ -52,7 +52,7 @@ def test_deploy(tmp_path):
     # POST on /api/auth for logging in
     # Make sure the supplied username and password were used
     assert responses.calls[1].request.url == "http://test.com/api/auth"
-    login_response = json.loads(responses.calls[1].request.body)
+    login_response = json.loads(responses.calls[1].request.body.decode("utf-8"))
     assert login_response["Username"] == "foo"
     assert login_response["Password"] == "bar"
 
@@ -66,7 +66,7 @@ def test_deploy(tmp_path):
     update_call = responses.calls[4]
     assert update_call.request.url == "http://test.com/api/stacks/99"
     assert update_call.request.method == "PUT"
-    update_body = json.loads(update_call.request.body)
+    update_body = json.loads(update_call.request.body.decode("utf-8"))
     assert update_body["StackFileContent"] == "version: '3.6'\n"
     assert update_body["Prune"] == False
 
