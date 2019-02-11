@@ -1,4 +1,4 @@
-__version__ = '0.7.2'
+__version__ = '0.7.2+build.1'
 
 from .portainer import portainer_for_host
 from .api_versions.portainer_base import PortainerError

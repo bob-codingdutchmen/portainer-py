@@ -114,7 +114,11 @@ def deploy(
         show_error(err, stop=True)
 
     # Merge existing env vars on the stack with the supplied ones
-    env_vars = {} if prune_env else portainer.get_env_vars(stack["Id"])
+    try:
+        env_vars = {} if prune_env else portainer.get_env_vars(stack["Id"])
+    except PortainerError as err:
+        show_error(err.message, stop=True)
+        
     env_vars.update({k: v for k, v in (item.split("=", 1) for item in env)})
     env_vars.update({k: os.environ.get(k) for k in pass_env_vars})
 

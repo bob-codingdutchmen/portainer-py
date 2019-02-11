@@ -4,6 +4,7 @@ portainer-py
 .. image:: https://travis-ci.org/bob-codingdutchmen/portainer-py.svg?branch=master
     :target: https://travis-ci.org/bob-codingdutchmen/portainer-py
 
+----
 
 
 .. contents:: **Table of Contents**
