@@ -1,8 +1,8 @@
 Metadata-Version: 2.1
 Name: portainer-py
-Version: 0.5.0
-Summary: UNKNOWN
-Home-page: https://github.com/_/portainer-py
+Version: 0.7.3
+Summary: Package to help deploy projects to portainer
+Home-page: https://github.com/bob-codingdutchmen/portainer-py
 Author: Bob Vork
 Author-email: bob@theothersonline.eu
 Maintainer: Bob Vork
@@ -14,7 +14,6 @@ Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Natural Language :: English
 Classifier: Operating System :: OS Independent
-Classifier: Programming Language :: Python :: 2.7
 Classifier: Programming Language :: Python :: 3.5
 Classifier: Programming Language :: Python :: 3.6
 Classifier: Programming Language :: Python :: Implementation :: CPython
@@ -26,6 +25,11 @@ Requires-Dist: colorama
 
 portainer-py
 ============
+
+.. image:: https://travis-ci.org/bob-codingdutchmen/portainer-py.svg?branch=master
+    :target: https://travis-ci.org/bob-codingdutchmen/portainer-py
+
+----
 
 
 .. contents:: **Table of Contents**
@@ -48,9 +52,37 @@ Usage
 From the command line
 ~~~~~~~~~~~~~~~~~~~~~
 
-The only command currently supported is `deploy`. 
+The only command currently supported is ``deploy``.
+Use the help function to find out how to use it:
+
 .. code-block:: bash
-    $ portainerpy
+
+    $ portainerpy deploy --help
+    Usage: portainerpy deploy [OPTIONS]
+
+      Update and deploy a portainer stack.
+
+      To ease automation, this utility also support using environment variables
+      instead of using these command line options:
+
+      --user       PORTAINER_USERNAME
+      --password   PORTAINER_PASSWORD
+      --host       PORTAINER_HOST
+      --stackname  PORTAINER_STACK_NAME
+      --stackfile  PORTAINER_STACKFILE
+
+    Options:
+      -f, --stackfile PATH  Path to the stackfile.yml  [required]
+      -h, --host TEXT       URL to Portainer host  [required]
+      -u, --user TEXT       Portainer username  [required]
+      -p, --password TEXT   Portainer password
+      -n, --stackname TEXT  Name of the Portainer stack  [required]
+      -e, --env TEXT        Environment variables to add to the stack
+      --prune-env           If true, will remove existing environment variables
+                            from the stack
+      --prune-stack         Prune services that are no longer referenced
+      --help                Show this message and exit.
+
 
 From python
 ~~~~~~~~~~~

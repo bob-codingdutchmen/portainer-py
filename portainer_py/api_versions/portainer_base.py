@@ -7,7 +7,7 @@ from .exceptions import PortainerError
 class Portainer:
     FROM_VERSION = (0, 0)
     URL_STACKS = "api/endpoints/1/stacks"
-    URL_STACK = "api/stacks/{stack_id}"
+    URL_STACK = "api/endpoints/1/stacks/{stack_id}"
 
     def __init__(self, host: str):
         self.token = None

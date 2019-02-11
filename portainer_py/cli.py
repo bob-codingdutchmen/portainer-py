@@ -5,12 +5,13 @@ import click
 from click import option
 from colorama import init as colorama_init
 
-from portainer_py import portainer_for_host, PortainerError
+from portainer_py import __version__, portainer_for_host, PortainerError
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
+@click.version_option(version=__version__)
 def cli():
     colorama_init()
 
@@ -98,6 +99,8 @@ def deploy(
     pass on to the Portainer stack
     """
 
+    click.echo("Deploying to portainer @ {host} as {user}".format(host=host, user=user))
+
     try:
         portainer = portainer_for_host(host)
     except ConnectionError as err:
@@ -114,11 +117,7 @@ def deploy(
         show_error(err, stop=True)
 
     # Merge existing env vars on the stack with the supplied ones
-    try:
-        env_vars = {} if prune_env else portainer.get_env_vars(stack["Id"])
-    except PortainerError as err:
-        show_error(err.message, stop=True)
-        
+    env_vars = {} if prune_env else portainer.get_env_vars(stack["Id"])
     env_vars.update({k: v for k, v in (item.split("=", 1) for item in env)})
     env_vars.update({k: os.environ.get(k) for k in pass_env_vars})
 
