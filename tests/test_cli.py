@@ -24,8 +24,8 @@ def test_deploy(tmp_path):
     responses.add("GET", url("status"), json={"Version": "1.17.2"})
     responses.add("POST", url("auth"), json={"jwt": "<token>"})
     responses.add("GET", url("endpoints/1/stacks"), json=[stack_json])
-    responses.add("GET", url("stacks/99"), json=stack_json)
-    responses.add("PUT", url("stacks/99"), json=stack_json)
+    responses.add("GET", url("endpoints/1/stacks/99"), json=stack_json)
+    responses.add("PUT", url("endpoints/1/stacks/99"), json=stack_json)
 
     # Create fake Stack file:
     stackfile = tmp_path / "stackfile.yml"
@@ -60,11 +60,11 @@ def test_deploy(tmp_path):
     assert responses.calls[2].request.url == "http://test.com/api/endpoints/1/stacks"
 
     # GET on /api/endpoints/1/stacks/99 for getting the env vars
-    assert responses.calls[3].request.url == "http://test.com/api/stacks/99"
+    assert responses.calls[3].request.url == "http://test.com/api/endpoints/1/stacks/99"
 
     # PUT on /api/endpoints/1/stacks/99 for updating the stack
     update_call = responses.calls[4]
-    assert update_call.request.url == "http://test.com/api/stacks/99"
+    assert update_call.request.url == "http://test.com/api/endpoints/1/stacks/99"
     assert update_call.request.method == "PUT"
     update_body = json.loads(update_call.request.body.decode("utf-8"))
     assert update_body["StackFileContent"] == "version: '3.6'\n"
