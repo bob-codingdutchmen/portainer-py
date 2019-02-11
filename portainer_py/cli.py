@@ -100,7 +100,6 @@ def deploy(
     """
 
     click.echo("Deploying to portainer @ {host} as {user}".format(host=host, user=user))
-
     try:
         portainer = portainer_for_host(host)
     except ConnectionError as err:

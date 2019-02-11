@@ -2,6 +2,7 @@ from urllib.parse import urljoin
 
 import requests
 from .exceptions import PortainerError
+import json
 
 
 class Portainer:
@@ -85,10 +86,16 @@ class Portainer:
     def request(self, path: str, method: str = "GET", data: dict = None) -> dict:
         url = urljoin(self.host, path)
         headers = {}
+
         if self.token:
             headers["Authorization"] = "Bearer {}".format(self.token)
+
         response = requests.request(method, url, json=data, headers=headers)
+
         if response.status_code == requests.codes.ok:
-            return response.json()
+            try:
+                return response.json()
+            except json.decoder.JSONDecodeError:
+                return {}
         else:
             raise PortainerError(response=response)
